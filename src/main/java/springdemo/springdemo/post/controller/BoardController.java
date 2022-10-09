@@ -1,10 +1,12 @@
 package springdemo.springdemo.post.controller;
 
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import springdemo.springdemo.post.dto.BoardDto;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import springdemo.springdemo.post.service.BoardService;
+
+import java.util.List;
 
 @Controller
 public class BoardController {
@@ -16,7 +18,10 @@ public class BoardController {
     }
 
     @GetMapping("/")
-    public String list(){
+    public String list(Model model){
+        List<BoardDto> boardDtoList = boardService.getBoardlist();
+        model.addAttribute("boardList", boardDtoList);
+
         return "board/list.html";
     }
 
@@ -30,4 +35,34 @@ public class BoardController {
         boardService.savePost(boardDto);
         return "redirect:/";
     }
+
+    @GetMapping("/post/{no}")
+    public String detail(@PathVariable("no") Long id, Model model) {
+        BoardDto boardDto = boardService.getPost(id);
+
+        model.addAttribute("boardDto", boardDto);
+        return "board/detail.html";
+    }
+
+    @GetMapping("/post/edit/{no}")
+    public String edit(@PathVariable("no") Long id, Model model) {
+        BoardDto boardDto = boardService.getPost(id);
+
+        model.addAttribute("boardDto", boardDto);
+        return "board/update.html";
+    }
+
+    @PutMapping("/post/edit/{no}")
+    public String update(@PathVariable("no") Long id, BoardDto boardDto){
+        boardService.updatePost(id, boardDto);
+        return "redirect:/post/{no}";
+    }
+
+    @DeleteMapping("post/delete/{no}")
+    public String delete(@PathVariable("no") Long id){
+        boardService.deletePost(id);
+        return "redirect:/";
+    }
+
+
 }

@@ -1,11 +1,13 @@
 package springdemo.springdemo.post.dto;
 
+import lombok.Getter;
 import springdemo.springdemo.post.domain.Board;
 import lombok.Builder;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+@Getter
 public class BoardDto {
 
     private Long id;
@@ -35,4 +37,5 @@ public class BoardDto {
         this.createdTime=createdTime;
         this.modifiedTime=modifiedTime;
     }
+
 }

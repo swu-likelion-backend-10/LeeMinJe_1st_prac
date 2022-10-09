@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import springdemo.springdemo.post.dto.BoardDto;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -32,5 +33,10 @@ public class Board extends BaseTimeEntity{
         this.id=id;
         this.title=title;
         this.contents=contents;
+    }
+
+    public void update(BoardDto boardDto) {
+        this.title = boardDto.getTitle();
+        this.contents=boardDto.getContents();
     }
 }
